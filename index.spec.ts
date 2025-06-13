@@ -138,6 +138,33 @@ describe("Fastify App", () => {
 			expect(response.status).toBe(401);
 			expect(response.body.message).toBe("Invalid refresh token");
 		});
+
+		it("should reject the same refresh token used twice", async () => {
+			const authResponse = await request(app.server).post("/auth").send({
+				email: "john@doe.com",
+				password: "123456",
+			});
+
+			const refreshToken = authResponse.headers["set-cookie"][0];
+			const match = refreshToken.match(/refreshToken=([^;]+)/);
+			const refreshTokenValue = match ? match[1] : "";
+
+			// First use should succeed
+			const firstResponse = await request(app.server)
+				.post("/auth/refresh")
+				.set("Cookie", `refreshToken=${refreshTokenValue}`)
+				.send();
+
+			expect(firstResponse.status).toBe(200);
+
+			// Second use should fail
+			const secondResponse = await request(app.server)
+				.post("/auth/refresh")
+				.set("Cookie", `refreshToken=${refreshTokenValue}`)
+				.send();
+
+			expect(secondResponse.status).toBe(401);
+		});
 	});
 
 	describe("GET /private", () => {

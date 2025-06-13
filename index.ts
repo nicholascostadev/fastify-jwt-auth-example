@@ -106,7 +106,7 @@ app.get(
 	{
 		preHandler: [verifyJwt],
 	},
-	async (request: FastifyRequest, reply: FastifyReply) => {
+	async (request: FastifyRequest) => {
 		const user = request.user;
 		return {
 			message: "This is a protected route!",
