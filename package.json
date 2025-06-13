@@ -1,0 +1,22 @@
+{
+  "name": "fastify-jwt-auth-example",
+  "version": "1.0.0",
+  "description": "Simple Fastify JWT authentication example",
+  "main": "index.js",
+  "scripts": {
+    "start:dev": "tsx watch index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "author": "Nicholas Costa",
+  "dependencies": {
+    "@fastify/cookie": "^11.0.2",
+    "@fastify/jwt": "^9.1.0",
+    "fastify": "^5.3.3",
+    "typescript": "^5.8.3"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.1",
+    "tsx": "^4.20.3"
+  }
+}
